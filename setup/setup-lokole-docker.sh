@@ -59,7 +59,7 @@ DOCKER_USERNAME:          The user from which the Lokole docker images will be
                           pulled. Defaults to cwolff.
 "
 
-case "$1" in -h|--help) echo "${usage}" && exit 1;; esac
+#case "$1" in -h|--help) echo "${usage}" && exit 1;; esac
 
 required_param() { [ -z "$1" ] && echo "Missing required parameter: $2" && (echo "$3" | head -1) && exit 1; }
 check_dependency() { if ! command -v "$1" >/dev/null; then echo "Missing dependency: $1" && exit 1; fi }
@@ -93,7 +93,7 @@ required_param "${sync_schedule}" 'sync-schedule' "${usage}"
 check_dependency "crontab"
 check_dependency "curl"
 check_dependency "docker"
-check_dependency "systemctl"
+#check_dependency "systemctl"
 
 readonly basedir="$(set_default "${LOKOLE_BASEDIR}" "${HOME}/opwen_config")"
 readonly statedir="$(set_default "${LOKOLE_STATEDIR}" "${HOME}/opwen_state")"
@@ -157,7 +157,7 @@ chmod a+x "${basedir}/docker-stop.sh"
 # set up autostart
 #
 
-cat > "${basedir}/opwen_webapp.service" << EOF
+: 'cat > "${basedir}/opwen_webapp.service" << EOF
 [Unit]
 Description=Run opwen-webapp via docker
 Requires=docker.service
@@ -177,6 +177,7 @@ WantedBy=multi-user.target
 EOF
 sudo mv "${basedir}/opwen_webapp.service" /etc/systemd/system
 sudo systemctl enable opwen_webapp
+'
 
 #
 # set up emails sync cronjob
