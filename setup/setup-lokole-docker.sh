@@ -93,7 +93,7 @@ required_param "${sync_schedule}" 'sync-schedule' "${usage}"
 check_dependency "crontab"
 check_dependency "curl"
 check_dependency "docker"
-check_dependency "systemctl"
+#check_dependency "systemctl"
 
 readonly basedir="$(set_default "${LOKOLE_BASEDIR}" "${HOME}/opwen_config")"
 readonly statedir="$(set_default "${LOKOLE_STATEDIR}" "${HOME}/opwen_state")"
