@@ -51,6 +51,7 @@ LOKOLE_BASEDIR:           The Lokole configuration files will get installed into
 
 LOKOLE_STATEDIR:          The Lokole state files will get stored in this
                           directory. Defaults to ~/opwen_state.
+
 LOKOLE_PORT:              The Lokole application will run on this port. Defaults
                           to 80.
 
@@ -58,7 +59,7 @@ DOCKER_USERNAME:          The user from which the Lokole docker images will be
                           pulled. Defaults to cwolff.
 "
 
-#case "$1" in -h|--help) echo "${usage}" && exit 1;; esac
+case "$1" in -h|--help) echo "${usage}" && exit 1;; esac
 
 required_param() { [ -z "$1" ] && echo "Missing required parameter: $2" && (echo "$3" | head -1) && exit 1; }
 check_dependency() { if ! command -v "$1" >/dev/null; then echo "Missing dependency: $1" && exit 1; fi }
@@ -156,27 +157,26 @@ chmod a+x "${basedir}/docker-stop.sh"
 # set up autostart
 #
 
-#cat > "${basedir}/opwen_webapp.service" << EOF
-#[Unit]
-#Description=Run opwen-webapp via docker
-#Requires=docker.service
-#After=docker.service
+cat > "${basedir}/opwen_webapp.service" << EOF
+[Unit]
+Description=Run opwen-webapp via docker
+Requires=docker.service
+After=docker.service
 
-#[Service]
-#Type=oneshot
-#RemainAfterExit=yes
-#WorkingDirectory=${basedir}
-#ExecStart=${basedir}/docker-start.sh
-#ExecStop=${basedir}/docker-stop.sh
-#TimeoutStartSec=0
-#TimeoutStopSec=0
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=${basedir}
+ExecStart=${basedir}/docker-start.sh
+ExecStop=${basedir}/docker-stop.sh
+TimeoutStartSec=0
+TimeoutStopSec=0
 
-#[Install]
-#WantedBy=multi-user.target
-#EOF
-#sudo mv "${basedir}/opwen_webapp.service" /etc/systemd/system
-#sudo systemctl enable opwen_webapp
-
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo mv "${basedir}/opwen_webapp.service" /etc/systemd/system
+sudo systemctl enable opwen_webapp
 
 #
 # set up emails sync cronjob
