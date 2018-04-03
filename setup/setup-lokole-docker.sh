@@ -156,27 +156,7 @@ chmod a+x "${basedir}/docker-stop.sh"
 # set up autostart
 #
 
-cat > "${basedir}/opwen_webapp.service" << EOF
-: '[Unit]
-Description=Run opwen-webapp via docker
-Requires=docker.service
-After=docker.service
 
-[Service]
-Type=oneshot
-RemainAfterExit=yes
-WorkingDirectory=${basedir}
-ExecStart=${basedir}/docker-start.sh
-ExecStop=${basedir}/docker-stop.sh
-TimeoutStartSec=0
-TimeoutStopSec=0
-
-[Install]
-WantedBy=multi-user.target
-EOF
-sudo mv "${basedir}/opwen_webapp.service" /etc/systemd/system
-sudo systemctl enable opwen_webapp
-'
 #
 # set up emails sync cronjob
 #
