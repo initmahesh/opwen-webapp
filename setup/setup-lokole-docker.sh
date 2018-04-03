@@ -51,7 +51,6 @@ LOKOLE_BASEDIR:           The Lokole configuration files will get installed into
 
 LOKOLE_STATEDIR:          The Lokole state files will get stored in this
                           directory. Defaults to ~/opwen_state.
-
 LOKOLE_PORT:              The Lokole application will run on this port. Defaults
                           to 80.
 
@@ -93,7 +92,7 @@ required_param "${sync_schedule}" 'sync-schedule' "${usage}"
 check_dependency "crontab"
 check_dependency "curl"
 check_dependency "docker"
-#check_dependency "systemctl"
+check_dependency "systemctl"
 
 readonly basedir="$(set_default "${LOKOLE_BASEDIR}" "${HOME}/opwen_config")"
 readonly statedir="$(set_default "${LOKOLE_STATEDIR}" "${HOME}/opwen_state")"
